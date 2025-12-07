@@ -73,7 +73,7 @@ const LearningInterface = () => {
                     title: "Welcome to the Google UX Design Certificate",
                     duration: "4 min",
                     completed: false,
-                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
+                    src: "https://www.youtube.com/watch?v=8GofoyfO3TA&list=PLpKyNBYcYNJec4bUTVZUqxBQF5ezd96RT" // Replace with your YouTube video URL
                 },
                 {
                     id: '1-2',
@@ -137,7 +137,7 @@ const LearningInterface = () => {
                         }
                     ]
                 },
-                { id: '1-4', type: 'video', title: "The basics of user experience design", duration: "4 min", completed: false, src: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
+                { id: '1-4', type: 'video', title: "The basics of user experience design", duration: "4 min", completed: false, src: "https://youtu.be/uYM161RaFLs?list=PLpKyNBYcYNJec4bUTVZUqxBQF5ezd96RT" },
             ]
         },
         {
@@ -182,7 +182,7 @@ const LearningInterface = () => {
                     title: "Introduction to Wireframing",
                     duration: "6 min",
                     completed: false,
-                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
+                    src: "https://youtu.be/nx0VMAES9kQ?list=PLpKyNBYcYNJec4bUTVZUqxBQF5ezd96RT" // Replace with your YouTube video URL
                 },
                 {
                     id: '3-2',
@@ -223,7 +223,7 @@ const LearningInterface = () => {
                     title: "Conducting Usability Studies",
                     duration: "8 min",
                     completed: false,
-                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
+                    src: "https://youtu.be/m6VJ2Nv8B44?list=PLpKyNBYcYNJec4bUTVZUqxBQF5ezd96RT" // Replace with your YouTube video URL
                 },
                 {
                     id: '4-2',
