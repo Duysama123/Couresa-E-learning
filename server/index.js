@@ -335,7 +335,10 @@ IMPORTANT TIPS:
 
         const text = completion.choices[0].message.content;
 
-        res.json({ text });
+        // Parse the JSON response from Groq
+        const parsedResponse = JSON.parse(text);
+
+        res.json(parsedResponse);
     } catch (error) {
         console.error("Chat Error:", error);
 
