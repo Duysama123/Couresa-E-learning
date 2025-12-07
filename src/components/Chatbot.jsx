@@ -60,13 +60,32 @@ const Chatbot = () => {
 
             // Parse the AI's JSON response
             let parsedData;
-            try {
-                // Remove markdown code blocks if present (Gemini sometimes adds ```json ... ```)
-                const cleanText = data.text.replace(/```json\n?|\n?```/g, '').trim();
-                parsedData = JSON.parse(cleanText);
-            } catch (e) {
-                // Fallback for non-JSON text
-                parsedData = { text: data.text };
+
+            // Backend now returns parsed object directly, so we check using type
+            if (typeof data.text === 'object' || (data.text && !data.options && !data.courses && typeof data.text === 'string')) {
+                // Try to parse if it looks like a JSON string meant to be parsed
+                try {
+                    const cleanText = typeof data.text === 'string'
+                        ? data.text.replace(/```json\n?|\n?```/g, '').trim()
+                        : null;
+
+                    if (cleanText && (cleanText.startsWith('{') || cleanText.startsWith('['))) {
+                        parsedData = JSON.parse(cleanText);
+                    } else {
+                        // It's already the data we want, or a simple string
+                        parsedData = data.text && typeof data.text === 'object' ? data.text : data;
+                    }
+                } catch (e) {
+                    parsedData = data;
+                }
+            } else {
+                // If data itself has the structure we need
+                parsedData = data;
+            }
+
+            // Ensure parsedData has text property
+            if (!parsedData.text && data.text) {
+                parsedData = { text: typeof data.text === 'string' ? data.text : JSON.stringify(data.text) };
             }
 
             const botMsg = {
