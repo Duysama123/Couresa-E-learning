@@ -1,16 +1,119 @@
-# React + Vite
+# 🎓 Couresa - Modern E-learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **Couresa**, a specialized e-learning platform demo designed for the Digital Transformation course on Cloud Computing. This project demonstrates a modern specific-domain learning environment with features like AI-powered recommendations, cloud progress synchronization, and interactive learning tools.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend (Vercel):** [https://couresa-e-learning.vercel.app](https://couresa-e-learning.vercel.app)
+- **Backend (Render):** [https://couresa-backend.onrender.com](https://couresa-backend.onrender.com)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Key Features
 
-## Expanding the ESLint configuration
+1.  **🤖 Smart AI Chatbot ("CourseMate")**:
+    *   Acts as a personal learning advisor.
+    *   Recommends courses based on user interests (UX Design, Web Dev, Data Science, etc.).
+    *   *Note: Currently running in "Fallback Mode" to ensure 100% reliability for demos without API key dependencies.*
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2.  **☁️ Cloud Progress Sync**:
+    *   Automatically saves learning progress (completed lessons, modules) to the cloud (MongoDB).
+    *   Allows seamless switching between devices without losing track.
+
+3.  **💬 Live Discussion Simulation**:
+    *   Real-time-like chat interface for course discussions.
+    *   Simulates peer interactions and AI tutor support.
+
+4.  **📚 Interactive Learning Interface**:
+    *   Integrated YouTube Video Player with custom controls.
+    *   Progress tracking sidebar.
+    *   Rich text reading materials and assignments.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+-   **React (Vite)**: Fast and modern UI framework.
+-   **Tailwind CSS**: For sleek, responsive styling.
+-   **Lucide React**: Beautiful icons.
+-   **React Router**: For seamless navigation.
+
+### Backend
+-   **Node.js & Express**: Robust RESTful API.
+-   **MongoDB & Mongoose**: NoSQL database for flexible data storage.
+-   **Cors & Dotenv**: Middleware for security and configuration.
+
+### Deployment
+-   **Frontend**: Vercel
+-   **Backend**: Render (Free Tier)
+-   **Database**: MongoDB Atlas
+
+---
+
+## ⚙️ Installation & Setup
+
+Follow these steps to run the project locally.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Duysama123/Couresa-E-learning.git
+cd Couresa-E-learning
+```
+
+### 2. Frontend Setup
+```bash
+# Install dependencies
+npm install
+
+# Run Frontend
+npm run dev
+```
+*Frontend will run at `http://localhost:5173`*
+
+### 3. Backend Setup
+Open a new terminal:
+```bash
+cd server
+
+# Install dependencies
+npm install
+
+# Run Backend
+npm run dev
+```
+*Backend will run at `http://localhost:5000` (or port 10000 in production)*
+
+---
+
+## 🔐 Environment Variables (.env)
+
+Create a `.env` file in the `server` directory with the following variables:
+
+```env
+# Server Port
+PORT=5000
+
+# MongoDB Connection String (Replace with your own if needed)
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/?appName=Cluster0
+
+# AI API Key (Optional - System uses robust fallback if missing)
+# GROQ_API_KEY=your_groq_api_key
+
+# Frontend URL (For CORS)
+FRONTEND_URL=http://localhost:5173
+```
+
+---
+
+## 📝 Demo Scripts (For Presentation)
+
+To demonstrate the Chatbot effectively:
+1.  Open the Chatbot (bottom right).
+2.  Type **"Hello"** to start the conversation.
+3.  Type **"I want to learn UX Design"** to see course recommendations.
+4.  Type **"Web Development"** to explore other paths.
+
+---
+
+*Project developed by [Your Name] for Cloud Computing Course Demo.*
