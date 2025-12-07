@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../components/Header'; // Global Header for Overview Mode
+import YouTubePlayer from '../components/YouTubePlayer';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import API_URL from '../config';
@@ -72,7 +73,7 @@ const LearningInterface = () => {
                     title: "Welcome to the Google UX Design Certificate",
                     duration: "4 min",
                     completed: false,
-                    src: "/videos/video1.mp4"
+                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
                 },
                 {
                     id: '1-2',
@@ -181,7 +182,7 @@ const LearningInterface = () => {
                     title: "Introduction to Wireframing",
                     duration: "6 min",
                     completed: false,
-                    src: "/videos/video1.mp4"
+                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
                 },
                 {
                     id: '3-2',
@@ -222,7 +223,7 @@ const LearningInterface = () => {
                     title: "Conducting Usability Studies",
                     duration: "8 min",
                     completed: false,
-                    src: "/videos/video1.mp4"
+                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
                 },
                 {
                     id: '4-2',
@@ -1295,17 +1296,11 @@ const LearningInterface = () => {
 
                                     {currentLesson?.type === 'video' && (
                                         <>
-                                            <div className="bg-black rounded-lg overflow-hidden shadow-xl aspect-video mb-6 group relative">
-                                                <video
-                                                    ref={videoRef}
-                                                    onTimeUpdate={handleTimeUpdate}
-                                                    controls
-                                                    className="w-full h-full object-cover"
-                                                    src={currentLesson.src}
-                                                    poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                                                >
-                                                    Your browser does not support the video tag.
-                                                </video>
+                                            <div className="mb-6">
+                                                <YouTubePlayer
+                                                    url={currentLesson.src}
+                                                    title={currentLesson.title}
+                                                />
                                             </div>
 
                                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-100">

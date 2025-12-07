@@ -133,7 +133,7 @@ const CourseDetail = () => {
                     title: `Introduction to ${syl.title}`,
                     duration: "5 min",
                     completed: false,
-                    src: "/videos/video1.mp4"
+                    src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your YouTube video URL
                 },
                 {
                     id: `${idx + 1}-2`,
