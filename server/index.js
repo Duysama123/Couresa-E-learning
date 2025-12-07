@@ -244,295 +244,179 @@ app.get('/', (req, res) => {
 });
 
 const Groq = require("groq-sdk");
-
-// Chatbot Endpoint
-app.post('/api/chat', async (req, res) => {
-    const { message, history } = req.body;
-
-    // Check for API Key
-    if (!process.env.GROQ_API_KEY) {
-        return res.json({
-            text: "I'm almost ready to be smart! But my developer needs to add a Groq API Key to the .env file first. For now, I can only talk about 'Product Design'."
-        });
+fallbackResponse.text = "Fantastic choice! UX Design is one of the most in-demand skills today. Here are my top recommendations for you:";
+fallbackResponse.courses = [
+    {
+        title: "UX Design Fundamentals: Zero to Hero",
+        timeline: "3-6 months • Beginner Friendly",
+        rating: 4.8,
+        reviews: 1250,
+        color: "bg-blue-50"
+    },
+    {
+        title: "Advanced UI/UX Masterclass",
+        timeline: "2-4 months • Intermediate",
+        rating: 4.9,
+        reviews: 890,
+        color: "bg-purple-50"
+    },
+    {
+        title: "Design Thinking & User Research",
+        timeline: "2-3 months • All Levels",
+        rating: 4.7,
+        reviews: 650,
+        color: "bg-indigo-50"
     }
-
-    try {
-        const groq = new Groq({
-            apiKey: process.env.GROQ_API_KEY
-        });
-
-        // Convert history to Groq format
-        const messages = [
-            {
-                role: "system",
-                content: `You are CourseMate, an expert educational advisor with 10+ years of experience helping students find their perfect learning path.
-
-YOUR MISSION: Guide users to courses that truly match their goals, skill level, and learning style through thoughtful, personalized questions.
-
-PERSONALITY TRAITS:
-- Warm, encouraging, and supportive
-- Ask insightful questions to understand their needs
-- Provide context and reasoning for every recommendation
-- Celebrate their learning journey
-- Use friendly, conversational language (not robotic)
-
-CONSULTATION PROCESS:
-1. **Understand Interest**: When user mentions a topic, show enthusiasm and ask about their current experience level
-2. **Assess Skill Level**: Ask if they're a beginner, have some experience, or are advanced
-3. **Clarify Goals**: Understand WHY they want to learn (career change, skill upgrade, personal interest, etc.)
-4. **Discuss Availability**: Ask about time commitment (hours per week)
-5. **Recommend Wisely**: Suggest 2-3 courses with clear reasoning for each
-
-CRITICAL OUTPUT RULE: You must ONLY return a valid JSON object. Do not include any markdown formatting like \`\`\`json.
-
-The JSON object must follow this schema:
-{
-    "text": "Your warm, conversational response",
-    "options": ["Option 1", "Option 2", "Option 3"], // Optional
-    "courses": [ // Optional
-        { 
-            "title": "Course Name", 
-            "timeline": "3-6 months", 
-            "rating": 4.8, 
-            "reviews": 120, 
-            "color": "bg-blue-50"
+];
+delete fallbackResponse.options;
+            } else if (lowerMsg.includes('web') || lowerMsg.includes('development') || lowerMsg.includes('frontend') || lowerMsg.includes('backend')) {
+    fallbackResponse.text = "Excellent! Web Development opens so many career doors. Here are courses tailored for different paths:";
+    fallbackResponse.courses = [
+        {
+            title: "Full Stack Web Development Bootcamp",
+            timeline: "6-9 months • Beginner to Pro",
+            rating: 4.7,
+            reviews: 2100,
+            color: "bg-green-50"
+        },
+        {
+            title: "React & Modern JavaScript Mastery",
+            timeline: "3-5 months • Intermediate",
+            rating: 4.9,
+            reviews: 1560,
+            color: "bg-blue-50"
+        },
+        {
+            title: "Node.js & Backend Development",
+            timeline: "4-6 months • Intermediate",
+            rating: 4.8,
+            reviews: 980,
+            color: "bg-emerald-50"
         }
-    ]
+    ];
+    delete fallbackResponse.options;
+} else if (lowerMsg.includes('data') || lowerMsg.includes('science') || lowerMsg.includes('machine learning') || lowerMsg.includes('ai')) {
+    fallbackResponse.text = "Perfect timing! Data Science and AI are transforming every industry. Here's your learning path:";
+    fallbackResponse.courses = [
+        {
+            title: "Data Science Bootcamp: Python to ML",
+            timeline: "4-6 months • Beginner Friendly",
+            rating: 4.8,
+            reviews: 1890,
+            color: "bg-orange-50"
+        },
+        {
+            title: "Machine Learning A-Z: Hands-On",
+            timeline: "5-7 months • Intermediate",
+            rating: 4.9,
+            reviews: 3200,
+            color: "bg-purple-50"
+        },
+        {
+            title: "Deep Learning & Neural Networks",
+            timeline: "3-5 months • Advanced",
+            rating: 4.7,
+            reviews: 1450,
+            color: "bg-pink-50"
+        }
+    ];
+    delete fallbackResponse.options;
+} else if (lowerMsg.includes('marketing') || lowerMsg.includes('digital marketing') || lowerMsg.includes('seo')) {
+    fallbackResponse.text = "Smart move! Digital Marketing skills are essential in today's business world. Check these out:";
+    fallbackResponse.courses = [
+        {
+            title: "Digital Marketing Masterclass",
+            timeline: "3-5 months • All Levels",
+            rating: 4.8,
+            reviews: 2340,
+            color: "bg-rose-50"
+        },
+        {
+            title: "SEO & Content Marketing Pro",
+            timeline: "2-4 months • Beginner Friendly",
+            rating: 4.7,
+            reviews: 1120,
+            color: "bg-amber-50"
+        },
+        {
+            title: "Social Media Marketing Strategy",
+            timeline: "2-3 months • All Levels",
+            rating: 4.9,
+            reviews: 890,
+            color: "bg-cyan-50"
+        }
+    ];
+    delete fallbackResponse.options;
+} else if (lowerMsg.includes('product') || lowerMsg.includes('management') || lowerMsg.includes('pm')) {
+    fallbackResponse.text = "Great choice! Product Management is a highly rewarding career. Here are the best courses to get you started:";
+    fallbackResponse.courses = [
+        {
+            title: "Product Management Fundamentals",
+            timeline: "3-4 months • Beginner Friendly",
+            rating: 4.8,
+            reviews: 1560,
+            color: "bg-violet-50"
+        },
+        {
+            title: "Agile Product Owner Certification",
+            timeline: "2-3 months • Intermediate",
+            rating: 4.9,
+            reviews: 780,
+            color: "bg-blue-50"
+        },
+        {
+            title: "Product Strategy & Roadmapping",
+            timeline: "2-4 months • Advanced",
+            rating: 4.7,
+            reviews: 650,
+            color: "bg-purple-50"
+        }
+    ];
+    delete fallbackResponse.options;
+} else if (lowerMsg.includes('python') || lowerMsg.includes('programming') || lowerMsg.includes('coding')) {
+    fallbackResponse.text = "Awesome! Python is the perfect language to start your coding journey. Here's what I recommend:";
+    fallbackResponse.courses = [
+        {
+            title: "Python for Beginners: Complete Course",
+            timeline: "2-4 months • Beginner",
+            rating: 4.9,
+            reviews: 4200,
+            color: "bg-yellow-50"
+        },
+        {
+            title: "Advanced Python Programming",
+            timeline: "3-5 months • Intermediate",
+            rating: 4.8,
+            reviews: 1890,
+            color: "bg-green-50"
+        },
+        {
+            title: "Python for Data Analysis",
+            timeline: "3-4 months • Intermediate",
+            rating: 4.9,
+            reviews: 2100,
+            color: "bg-blue-50"
+        }
+    ];
+    delete fallbackResponse.options;
+} else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+    fallbackResponse.text = "Hi there! 👋 I'm CourseMate, your personal course advisor. I'm here to help you find the perfect course for your goals. What would you like to learn?";
+    fallbackResponse.options = ["UX/UI Design", "Web Development", "Data Science", "Digital Marketing", "Product Management", "Python Programming"];
+} else {
+    // Keep default response for unrecognized queries
+    fallbackResponse.text = "I'd love to help you find the perfect course! What area are you interested in exploring?";
+    fallbackResponse.options = ["UX/UI Design", "Web Development", "Data Science", "Digital Marketing", "Product Management", "Python Programming"];
 }
 
-IMPORTANT TIPS:
-- Always explain WHY you're asking a question
-- When recommending courses, briefly mention what makes each one special
-- Use encouraging language ("That's awesome!", "Great choice!", "You're on the right track!")
-- Keep responses concise but warm
-- Focus on ONE question at a time to avoid overwhelming users`
-            }
-        ];
-
-        // Add history if exists
-        if (history && history.length > 0) {
-            history.forEach(msg => {
-                messages.push({
-                    role: msg.role === 'model' ? 'assistant' : 'user',
-                    content: msg.parts[0].text
-                });
-            });
+return res.json({ text: JSON.stringify(fallbackResponse) });
         }
 
-        // Add current message
-        messages.push({
-            role: "user",
-            content: message
-        });
-
-        const completion = await groq.chat.completions.create({
-            messages: messages,
-            model: "llama-3.3-70b-versatile", // Fast and powerful
-            temperature: 0.7,
-            max_tokens: 1000,
-            response_format: { type: "json_object" }
-        });
-
-        const text = completion.choices[0].message.content;
-
-        // Parse the JSON response from Groq
-        const parsedResponse = JSON.parse(text);
-
-        res.json(parsedResponse);
-    } catch (error) {
-        console.error("Chat Error:", error);
-
-        // Smart fallback when API quota exceeded or other errors
-        const isQuotaError = error.message && (
-            error.message.includes('quota') ||
-            error.message.includes('429') ||
-            error.message.includes('Too Many Requests')
-        );
-
-        if (isQuotaError) {
-            // Provide helpful fallback response instead of error
-            const fallbackResponse = {
-                text: "I'm currently experiencing high demand, but I can still help! What type of course are you looking for?",
-                options: ["UX Design", "Web Development", "Data Science", "Digital Marketing", "Product Management"]
-            };
-
-            // Check if user mentioned specific topics
-            const lowerMsg = message.toLowerCase();
-
-            if (lowerMsg.includes('ux') || lowerMsg.includes('design') || lowerMsg.includes('ui')) {
-                fallbackResponse.text = "Fantastic choice! UX Design is one of the most in-demand skills today. Here are my top recommendations for you:";
-                fallbackResponse.courses = [
-                    {
-                        title: "UX Design Fundamentals: Zero to Hero",
-                        timeline: "3-6 months • Beginner Friendly",
-                        rating: 4.8,
-                        reviews: 1250,
-                        color: "bg-blue-50"
-                    },
-                    {
-                        title: "Advanced UI/UX Masterclass",
-                        timeline: "2-4 months • Intermediate",
-                        rating: 4.9,
-                        reviews: 890,
-                        color: "bg-purple-50"
-                    },
-                    {
-                        title: "Design Thinking & User Research",
-                        timeline: "2-3 months • All Levels",
-                        rating: 4.7,
-                        reviews: 650,
-                        color: "bg-indigo-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('web') || lowerMsg.includes('development') || lowerMsg.includes('frontend') || lowerMsg.includes('backend')) {
-                fallbackResponse.text = "Excellent! Web Development opens so many career doors. Here are courses tailored for different paths:";
-                fallbackResponse.courses = [
-                    {
-                        title: "Full Stack Web Development Bootcamp",
-                        timeline: "6-9 months • Beginner to Pro",
-                        rating: 4.7,
-                        reviews: 2100,
-                        color: "bg-green-50"
-                    },
-                    {
-                        title: "React & Modern JavaScript Mastery",
-                        timeline: "3-5 months • Intermediate",
-                        rating: 4.9,
-                        reviews: 1560,
-                        color: "bg-blue-50"
-                    },
-                    {
-                        title: "Node.js & Backend Development",
-                        timeline: "4-6 months • Intermediate",
-                        rating: 4.8,
-                        reviews: 980,
-                        color: "bg-emerald-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('data') || lowerMsg.includes('science') || lowerMsg.includes('machine learning') || lowerMsg.includes('ai')) {
-                fallbackResponse.text = "Perfect timing! Data Science and AI are transforming every industry. Here's your learning path:";
-                fallbackResponse.courses = [
-                    {
-                        title: "Data Science Bootcamp: Python to ML",
-                        timeline: "4-6 months • Beginner Friendly",
-                        rating: 4.8,
-                        reviews: 1890,
-                        color: "bg-orange-50"
-                    },
-                    {
-                        title: "Machine Learning A-Z: Hands-On",
-                        timeline: "5-7 months • Intermediate",
-                        rating: 4.9,
-                        reviews: 3200,
-                        color: "bg-purple-50"
-                    },
-                    {
-                        title: "Deep Learning & Neural Networks",
-                        timeline: "3-5 months • Advanced",
-                        rating: 4.7,
-                        reviews: 1450,
-                        color: "bg-pink-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('marketing') || lowerMsg.includes('digital marketing') || lowerMsg.includes('seo')) {
-                fallbackResponse.text = "Smart move! Digital Marketing skills are essential in today's business world. Check these out:";
-                fallbackResponse.courses = [
-                    {
-                        title: "Digital Marketing Masterclass",
-                        timeline: "3-5 months • All Levels",
-                        rating: 4.8,
-                        reviews: 2340,
-                        color: "bg-rose-50"
-                    },
-                    {
-                        title: "SEO & Content Marketing Pro",
-                        timeline: "2-4 months • Beginner Friendly",
-                        rating: 4.7,
-                        reviews: 1120,
-                        color: "bg-amber-50"
-                    },
-                    {
-                        title: "Social Media Marketing Strategy",
-                        timeline: "2-3 months • All Levels",
-                        rating: 4.9,
-                        reviews: 890,
-                        color: "bg-cyan-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('product') || lowerMsg.includes('management') || lowerMsg.includes('pm')) {
-                fallbackResponse.text = "Great choice! Product Management is a highly rewarding career. Here are the best courses to get you started:";
-                fallbackResponse.courses = [
-                    {
-                        title: "Product Management Fundamentals",
-                        timeline: "3-4 months • Beginner Friendly",
-                        rating: 4.8,
-                        reviews: 1560,
-                        color: "bg-violet-50"
-                    },
-                    {
-                        title: "Agile Product Owner Certification",
-                        timeline: "2-3 months • Intermediate",
-                        rating: 4.9,
-                        reviews: 780,
-                        color: "bg-blue-50"
-                    },
-                    {
-                        title: "Product Strategy & Roadmapping",
-                        timeline: "2-4 months • Advanced",
-                        rating: 4.7,
-                        reviews: 650,
-                        color: "bg-purple-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('python') || lowerMsg.includes('programming') || lowerMsg.includes('coding')) {
-                fallbackResponse.text = "Awesome! Python is the perfect language to start your coding journey. Here's what I recommend:";
-                fallbackResponse.courses = [
-                    {
-                        title: "Python for Beginners: Complete Course",
-                        timeline: "2-4 months • Beginner",
-                        rating: 4.9,
-                        reviews: 4200,
-                        color: "bg-yellow-50"
-                    },
-                    {
-                        title: "Advanced Python Programming",
-                        timeline: "3-5 months • Intermediate",
-                        rating: 4.8,
-                        reviews: 1890,
-                        color: "bg-green-50"
-                    },
-                    {
-                        title: "Python for Data Analysis",
-                        timeline: "3-4 months • Intermediate",
-                        rating: 4.9,
-                        reviews: 2100,
-                        color: "bg-blue-50"
-                    }
-                ];
-                delete fallbackResponse.options;
-            } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
-                fallbackResponse.text = "Hi there! 👋 I'm CourseMate, your personal course advisor. I'm here to help you find the perfect course for your goals. What would you like to learn?";
-                fallbackResponse.options = ["UX/UI Design", "Web Development", "Data Science", "Digital Marketing", "Product Management", "Python Programming"];
-            } else {
-                // Keep default response for unrecognized queries
-                fallbackResponse.text = "I'd love to help you find the perfect course! What area are you interested in exploring?";
-                fallbackResponse.options = ["UX/UI Design", "Web Development", "Data Science", "Digital Marketing", "Product Management", "Python Programming"];
-            }
-
-            return res.json({ text: JSON.stringify(fallbackResponse) });
-        }
-
-        // For other errors, show generic message
-        res.status(500).json({
-            text: JSON.stringify({
-                text: "Sorry, I'm having technical difficulties. Please try again in a moment, or browse our course catalog directly."
-            })
-        });
+// For other errors, show generic message
+res.status(500).json({
+    text: JSON.stringify({
+        text: "Sorry, I'm having technical difficulties. Please try again in a moment, or browse our course catalog directly."
+    })
+});
     }
 });
 
