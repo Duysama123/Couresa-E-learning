@@ -238,6 +238,84 @@ app.post('/api/progress/reset', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
+// Chatbot Endpoint (FALLBACK Mock Mode)
+app.post('/api/chat', (req, res) => {
+    const { message } = req.body;
+    console.log("Chat Request:", message);
+
+    try {
+        const lowerMsg = (message || "").toLowerCase();
+        let response = {
+            text: "I can help you with that! Could you tell me more about your specific interest or skill level?",
+            options: ["Beginner", "Intermediate", "Advanced"]
+        };
+
+        // 1. Greeting
+        if (lowerMsg.match(/hello|hi|hey|start/)) {
+            response = {
+                text: "Hi! I'm CourseMate. I can help you find the perfect course. What are you interested in learning today?",
+                options: ["UX Design", "Web Development", "Data Science", "Marketing"]
+            };
+        }
+
+        // 2. UX Design Path
+        else if (lowerMsg.includes("ux") || lowerMsg.includes("design")) {
+            if (lowerMsg.includes("beginner") || lowerMsg.includes("start")) {
+                response = {
+                    text: "Great choice! For UX Design beginners, I recommend starting with the fundamentals. Here are top-rated courses:",
+                    courses: [
+                        { title: "Google UX Design Professional Certificate", timeline: "6 months", rating: 4.8, reviews: 12500, color: "bg-blue-50" },
+                        { title: "Introduction to User Experience Design", timeline: "3 weeks", rating: 4.7, reviews: 3400, color: "bg-purple-50" }
+                    ],
+                    options: ["See Advanced Courses", "Explore Web Dev"]
+                };
+            } else {
+                response = {
+                    text: "UX Design is a fantastic career path! What is your current experience level?",
+                    options: ["Complete Beginner", "Some Experience", "Switching Careers"]
+                };
+            }
+        }
+
+        // 3. Web Development Path
+        else if (lowerMsg.includes("web") || lowerMsg.includes("code") || lowerMsg.includes("programming")) {
+            response = {
+                text: "Web Development is in high demand! Are you interested in Frontend (visuals) or Backend (logic)?",
+                options: ["Frontend", "Backend", "Full Stack"]
+            };
+        }
+        // Specific Web Dev Recommendations
+        else if (lowerMsg.includes("frontend") || lowerMsg.includes("react")) {
+            response = {
+                text: "For Frontend, React is the industry standard. Check out these highly recommended courses:",
+                courses: [
+                    { title: "Meta Front-End Developer Professional Certificate", timeline: "7 months", rating: 4.9, reviews: 8900, color: "bg-blue-50" },
+                    { title: "React - The Complete Guide 2024", timeline: "40 hours", rating: 4.8, reviews: 15000, color: "bg-green-50" }
+                ],
+                options: ["Check Backend", "Back to Topics"]
+            };
+        }
+
+        // 4. Data Science Path
+        else if (lowerMsg.includes("data") || lowerMsg.includes("python") || lowerMsg.includes("analysis")) {
+            response = {
+                text: "Data Science is solving the world's problems! Do you prefer analyzing data (Analytics) or building models (AI/ML)?",
+                options: ["Data Analytics", "Machine Learning", "Python Basics"]
+            };
+        }
+
+        // Return JSON directly
+        res.json(response);
+
+    } catch (error) {
+        console.error("Fallback Error:", error);
+        res.json({
+            text: "I'm having a bit of trouble connecting right now. Why don't we try exploring our catalog directly?",
+            options: ["Browse Catalog", "Contact Support"]
+        });
+    }
+});
+
 app.get('/api/messages/:courseId', async (req, res) => {
     try {
         const { courseId } = req.params;
