@@ -1,0 +1,28 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "student",
+            "password": "123",
+            "name": "Nguyen Van A",
+            "role": "student",
+            "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+        }
+    ],
+    "courses": [
+        {
+            "id": 1,
+            "title": "Introduction to Cloud Computing",
+            "instructor": "Dr. Smith",
+            "thumbnail": "https://img.youtube.com/vi/M988_fsOSWo/maxresdefault.jpg",
+            "progress": 0
+        },
+        {
+            "id": 2,
+            "title": "AWS Fundamentals",
+            "instructor": "Jane Doe",
+            "thumbnail": "https://img.youtube.com/vi/3hLmDS179YE/maxresdefault.jpg",
+            "progress": 0
+        }
+    ]
+}

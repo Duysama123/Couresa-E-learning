@@ -1,0 +1,11 @@
+This is a sample transcript file.
+Course: Google UX Design.
+Module 1: Foundations of User Experience Design.
+Lesson: The basics of user experience design.
+
+Transcript:
+[00:00] Welcome to the Google UX Design course!
+[00:15] In this course, we will learn the foundations of User Experience Design.
+[00:30] You will learn how to empathize with users, define problems, and come up with creative solutions.
+[00:45] We will go through concepts like Wireframing, Prototyping, and Testing.
+[01:00] These are essential skills that every UX Designer at Google uses daily.
