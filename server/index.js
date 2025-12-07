@@ -6,7 +6,9 @@ const crypto = require('crypto');
 require('dotenv').config();
 
 const User = require('./models/User');
+const Message = require('./models/Message');
 const sendEmail = require('./utils/sendEmail');
+const Groq = require('groq-sdk');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +37,10 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.error('Could not connect to MongoDB:', err));
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('E-learning Backend is running with MongoDB');
+});
+
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -316,16 +322,7 @@ app.post('/api/chat', (req, res) => {
     }
 });
 
-app.get('/api/messages/:courseId', async (req, res) => {
-    try {
-        const { courseId } = req.params;
-        const messages = await Message.find({ courseId }).sort({ timestamp: 1 }).limit(100);
-        res.json({ success: true, messages });
-    } catch (error) {
-        console.error("Fetch Messages Error:", error);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
-});
+
 
 // Bot data
 const BOT_PROFILES = [
