@@ -2,10 +2,8 @@
 
 Welcome to **Couresa**, a specialized e-learning platform demo designed for the Digital Transformation course on Cloud Computing. This project demonstrates a modern specific-domain learning environment with features like AI-powered recommendations, cloud progress synchronization, and interactive learning tools.
 
-## 🚀 Live Demo
+## 🚀 Live Demo: [https://couresa-e-learning.vercel.app](https://couresa-e-learning.vercel.app)
 
-- **Frontend (Vercel):** [https://couresa-e-learning.vercel.app](https://couresa-e-learning.vercel.app)
-- **Backend (Render):** [https://couresa-backend.onrender.com](https://couresa-backend.onrender.com)
 
 ---
 
@@ -22,12 +20,11 @@ Welcome to **Couresa**, a specialized e-learning platform demo designed for the 
 
 3.  **💬 Live Discussion Simulation**:
     *   Real-time-like chat interface for course discussions.
-    *   Simulates peer interactions and AI tutor support.
+    *   Simulates peer interactions.
 
-4.  **📚 Interactive Learning Interface**:
-    *   Integrated YouTube Video Player with custom controls.
-    *   Progress tracking sidebar.
-    *   Rich text reading materials and assignments.
+4.  **📚 AI Learning Analytic Dashboard**:
+    *   Dashboard visualize strengths, weaknesses of students.
+    *   Suggested next courses.
 
 ---
 
