@@ -243,120 +243,97 @@ app.get('/', (req, res) => {
     res.send('E-learning Backend is running with MongoDB');
 });
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Groq = require("groq-sdk");
 
 // Chatbot Endpoint
 app.post('/api/chat', async (req, res) => {
     const { message, history } = req.body;
 
     // Check for API Key
-    if (!process.env.GEMINI_API_KEY) {
+    if (!process.env.GROQ_API_KEY) {
         return res.json({
-            text: "I'm almost ready to be smart! But my developer needs to add a Google Gemini API Key to the .env file first. For now, I can only talk about 'Product Design'."
+            text: "I'm almost ready to be smart! But my developer needs to add a Groq API Key to the .env file first. For now, I can only talk about 'Product Design'."
         });
     }
 
     try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // Using gemini-2.0-flash as listed in the available models for this key
-        const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
-            systemInstruction: `You are CourseMate, an expert educational advisor with 10+ years of experience helping students find their perfect learning path.
+        const groq = new Groq({
+            apiKey: process.env.GROQ_API_KEY
+        });
 
-            YOUR MISSION: Guide users to courses that truly match their goals, skill level, and learning style through thoughtful, personalized questions.
-
-            PERSONALITY TRAITS:
-            - Warm, encouraging, and supportive
-            - Ask insightful questions to understand their needs
-            - Provide context and reasoning for every recommendation
-            - Celebrate their learning journey
-            - Use friendly, conversational language (not robotic)
-
-            CONSULTATION PROCESS:
-            1. **Understand Interest**: When user mentions a topic, show enthusiasm and ask about their current experience level
-            2. **Assess Skill Level**: Ask if they're a beginner, have some experience, or are advanced
-            3. **Clarify Goals**: Understand WHY they want to learn (career change, skill upgrade, personal interest, etc.)
-            4. **Discuss Availability**: Ask about time commitment (hours per week)
-            5. **Recommend Wisely**: Suggest 2-3 courses with clear reasoning for each
-
-            CRITICAL OUTPUT RULE: You must ONLY return a valid JSON object. Do not include any markdown formatting like \`\`\`json.
-            
-            The JSON object must follow this schema:
+        // Convert history to Groq format
+        const messages = [
             {
-                "text": "Your warm, conversational response (e.g., 'That's awesome! UX Design is such a rewarding field. Are you just starting out, or do you have some design experience already?')",
-                "options": ["Beginner", "Some Experience", "Advanced"], // Optional: choices for the user
-                "courses": [ // Optional: list of recommended courses
-                    { 
-                        "title": "Course Name", 
-                        "timeline": "3-6 months", 
-                        "rating": 4.8, 
-                        "reviews": 120, 
-                        "color": "bg-blue-50" // Use soft colors: bg-blue-50, bg-purple-50, bg-green-50, bg-orange-50
-                    }
-                ]
+                role: "system",
+                content: `You are CourseMate, an expert educational advisor with 10+ years of experience helping students find their perfect learning path.
+
+YOUR MISSION: Guide users to courses that truly match their goals, skill level, and learning style through thoughtful, personalized questions.
+
+PERSONALITY TRAITS:
+- Warm, encouraging, and supportive
+- Ask insightful questions to understand their needs
+- Provide context and reasoning for every recommendation
+- Celebrate their learning journey
+- Use friendly, conversational language (not robotic)
+
+CONSULTATION PROCESS:
+1. **Understand Interest**: When user mentions a topic, show enthusiasm and ask about their current experience level
+2. **Assess Skill Level**: Ask if they're a beginner, have some experience, or are advanced
+3. **Clarify Goals**: Understand WHY they want to learn (career change, skill upgrade, personal interest, etc.)
+4. **Discuss Availability**: Ask about time commitment (hours per week)
+5. **Recommend Wisely**: Suggest 2-3 courses with clear reasoning for each
+
+CRITICAL OUTPUT RULE: You must ONLY return a valid JSON object. Do not include any markdown formatting like \`\`\`json.
+
+The JSON object must follow this schema:
+{
+    "text": "Your warm, conversational response",
+    "options": ["Option 1", "Option 2", "Option 3"], // Optional
+    "courses": [ // Optional
+        { 
+            "title": "Course Name", 
+            "timeline": "3-6 months", 
+            "rating": 4.8, 
+            "reviews": 120, 
+            "color": "bg-blue-50"
+        }
+    ]
+}
+
+IMPORTANT TIPS:
+- Always explain WHY you're asking a question
+- When recommending courses, briefly mention what makes each one special
+- Use encouraging language ("That's awesome!", "Great choice!", "You're on the right track!")
+- Keep responses concise but warm
+- Focus on ONE question at a time to avoid overwhelming users`
             }
+        ];
 
-            EXAMPLE INTERACTIONS:
+        // Add history if exists
+        if (history && history.length > 0) {
+            history.forEach(msg => {
+                messages.push({
+                    role: msg.role === 'model' ? 'assistant' : 'user',
+                    content: msg.parts[0].text
+                });
+            });
+        }
 
-            User: "I want to learn UX Design"
-            You: { 
-                "text": "That's fantastic! UX Design is such a creative and impactful field. To help me recommend the perfect course, could you tell me about your current experience level?",
-                "options": ["Complete Beginner", "Some Design Experience", "Experienced Designer"]
-            }
-
-            User: "I'm a complete beginner"
-            You: { 
-                "text": "Perfect! Starting fresh means you can build strong foundations. What's your main goal? Are you looking to switch careers, add skills to your current role, or explore it as a hobby?",
-                "options": ["Career Change", "Skill Enhancement", "Personal Interest"]
-            }
-
-            User: "Career change"
-            You: { 
-                "text": "That's a big and exciting step! For a career change, I recommend courses that cover the full UX process. How much time can you dedicate each week?",
-                "options": ["< 5 hours/week", "5-10 hours/week", "10+ hours/week"]
-            }
-
-            User: "10+ hours/week"
-            You: {
-                "text": "Great! With that commitment, you can make serious progress. Here are my top recommendations for beginners aiming for a UX career:",
-                "courses": [
-                    {
-                        "title": "UX Design Fundamentals: Complete Beginner to Pro",
-                        "timeline": "3-4 months",
-                        "rating": 4.9,
-                        "reviews": 2340,
-                        "color": "bg-blue-50"
-                    },
-                    {
-                        "title": "Google UX Design Professional Certificate",
-                        "timeline": "4-6 months",
-                        "rating": 4.8,
-                        "reviews": 5600,
-                        "color": "bg-purple-50"
-                    }
-                ]
-            }
-
-            IMPORTANT TIPS:
-            - Always explain WHY you're asking a question
-            - When recommending courses, briefly mention what makes each one special
-            - Use encouraging language ("That's awesome!", "Great choice!", "You're on the right track!")
-            - Keep responses concise but warm
-            - Focus on ONE question at a time to avoid overwhelming users
-            `
+        // Add current message
+        messages.push({
+            role: "user",
+            content: message
         });
 
-        const chat = model.startChat({
-            history: history || [],
-            generationConfig: {
-                maxOutputTokens: 1000,
-                responseMimeType: "application/json" // Force JSON mode natively if supported
-            },
+        const completion = await groq.chat.completions.create({
+            messages: messages,
+            model: "llama-3.3-70b-versatile", // Fast and powerful
+            temperature: 0.7,
+            max_tokens: 1000,
+            response_format: { type: "json_object" }
         });
 
-        const result = await chat.sendMessage(message);
-        const response = await result.response;
-        const text = response.text();
+        const text = completion.choices[0].message.content;
 
         res.json({ text });
     } catch (error) {
@@ -618,22 +595,30 @@ app.post('/api/messages', async (req, res) => {
                     const randomBot = BOT_PROFILES[Math.floor(Math.random() * BOT_PROFILES.length)];
                     let botText = "";
 
-                    // Try to use Gemini for a smart response
-                    if (process.env.GEMINI_API_KEY) {
+                    // Try to use Groq for a smart response
+                    if (process.env.GROQ_API_KEY) {
                         try {
-                            const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-                            const model = genAI.getGenerativeModel({
-                                model: "gemini-2.0-flash",
-                                systemInstruction: `You are ${randomBot.name}, a student taking an online course. You are in a live study group chat.
-                                A classmate just sent a message. Reply to them naturally, keeping it short (max 1-2 sentences).
-                                Be engaging, helpful, or ask a follow-up question. 
-                                Tone: Casual, friendly, student-like. NOT robotic.
-                                Context: The course is likely about UX Design, Technology, or Career Growth.`
+                            const groq = new Groq({
+                                apiKey: process.env.GROQ_API_KEY
                             });
 
-                            const result = await model.generateContent(text); // 'text' is the user's message
-                            const response = await result.response;
-                            botText = response.text();
+                            const completion = await groq.chat.completions.create({
+                                messages: [
+                                    {
+                                        role: "system",
+                                        content: `You are ${randomBot.name}, a student taking an online course. You are in a live study group chat. A classmate just sent a message. Reply to them naturally, keeping it short (max 1-2 sentences). Be engaging, helpful, or ask a follow-up question. Tone: Casual, friendly, student-like. NOT robotic. Context: The course is likely about UX Design, Technology, or Career Growth.`
+                                    },
+                                    {
+                                        role: "user",
+                                        content: text
+                                    }
+                                ],
+                                model: "llama-3.3-70b-versatile",
+                                temperature: 0.8,
+                                max_tokens: 100
+                            });
+
+                            botText = completion.choices[0].message.content;
                         } catch (aiError) {
                             console.error("Gemini Bot Error:", aiError);
                             // Fallback will be used if botText is empty
