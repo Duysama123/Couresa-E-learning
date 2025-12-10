@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, Globe, Bell, User, ChevronDown, Bot, Check, Settings, Cloud, BookOpen } from 'lucide-react';
+import { Search, ShoppingCart, Globe, Bell, User, ChevronDown, Bot, Check, Settings, Cloud, BookOpen, Smartphone } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
 
@@ -296,6 +296,15 @@ const Header = () => {
                                             >
                                                 <Cloud size={16} /> Cloud Inspector
                                             </Link>
+                                            <button
+                                                onClick={() => {
+                                                    window.open('/mobile-app', 'MobilePreview', 'width=375,height=844,resizable,scrollbars');
+                                                    setShowProfile(false);
+                                                }}
+                                                className="w-full flex items-center gap-3 px-5 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                                            >
+                                                <Smartphone size={16} /> Mobile App Demo
+                                            </button>
                                         </div>
                                         <div className="border-t border-gray-100 py-2">
                                             <button

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Bot, Star } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
+import API_URL from '../config';
 
 const Chatbot = () => {
     const { isOpen, closeChat, initialMessage, setInitialMessage } = useChat();
@@ -50,7 +51,7 @@ const Chatbot = () => {
                 parts: [{ text: m.text }]
             }));
 
-            const response = await fetch('/api/chat', {
+            const response = await fetch(`${API_URL}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: text, history })
@@ -145,7 +146,17 @@ const Chatbot = () => {
                                     ? 'bg-blue-600 text-white rounded-tr-none'
                                     : 'bg-white text-gray-800 border border-gray-200 rounded-tl-none shadow-sm'
                                     }`}>
-                                    {msg.text}
+                                    {msg.text.split('\n').map((line, i) => (
+                                        <p key={i} className={`min-h-[1.2em] ${i > 0 ? 'mt-1' : ''}`}>
+                                            {line.split(/(\*\*.*?\*\*)/).map((part, j) =>
+                                                part.startsWith('**') && part.endsWith('**') ? (
+                                                    <strong key={j}>{part.slice(2, -2)}</strong>
+                                                ) : (
+                                                    part
+                                                )
+                                            )}
+                                        </p>
+                                    ))}
                                 </div>
                             )}
 

@@ -17,6 +17,7 @@ import Settings from './pages/Settings';
 import SearchResults from './pages/SearchResults';
 import CloudInspector from './pages/CloudInspector';
 import MyLearning from './pages/MyLearning';
+import MobileSimulatorPage from './pages/MobileSimulatorPage';
 const Dashboard = () => <div className="p-8 text-2xl">Dashboard</div>;
 
 const ProtectedRoute = ({ children }) => {
@@ -26,6 +27,13 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const MainLayout = ({ children }) => (
+  <>
+    {children}
+    <Footer />
+  </>
+);
+
 function App() {
   return (
     <AuthProvider>
@@ -33,41 +41,45 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password/:token" element={<ResetPassword />} />
-              {/* Public Home Page */}
-              <Route path="/" element={<Home />} />
+              {/* Standalone Mobile App Simulator - No Footer, Internal Auth */}
+              <Route path="/mobile-app" element={<MobileSimulatorPage />} />
 
+              {/* Public Routes with Footer */}
+              <Route path="/login" element={<MainLayout><Login /></MainLayout>} />
+              <Route path="/register" element={<MainLayout><Register /></MainLayout>} />
+              <Route path="/forgot-password" element={<MainLayout><ForgotPassword /></MainLayout>} />
+              <Route path="/reset-password/:token" element={<MainLayout><ResetPassword /></MainLayout>} />
+              <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+
+              {/* Protected Routes with Footer */}
               <Route path="/course/:id" element={
                 <ProtectedRoute>
-                  <CourseDetail />
+                  <MainLayout><CourseDetail /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <MainLayout><Dashboard /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/profile" element={
                 <ProtectedRoute>
-                  <Profile />
+                  <MainLayout><Profile /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/settings" element={
                 <ProtectedRoute>
-                  <Settings />
+                  <MainLayout><Settings /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/cloud-inspector" element={
                 <ProtectedRoute>
-                  <CloudInspector />
+                  <MainLayout><CloudInspector /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/search" element={
                 <ProtectedRoute>
-                  <SearchResults />
+                  <MainLayout><SearchResults /></MainLayout>
                 </ProtectedRoute>
               } />
               <Route path="/learning/:id" element={
@@ -77,11 +89,10 @@ function App() {
               } />
               <Route path="/my-learning" element={
                 <ProtectedRoute>
-                  <MyLearning />
+                  <MainLayout><MyLearning /></MainLayout>
                 </ProtectedRoute>
               } />
             </Routes>
-            <Footer />
             <Chatbot />
           </div>
         </Router>
