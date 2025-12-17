@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import MetaTags from '../components/MetaTags';
 import { ArrowRight, Briefcase, Award, GraduationCap } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -119,6 +120,11 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-white font-sans text-gray-900">
+            <MetaTags
+                title="Couresa - Learn Cloud Computing & Digital Transformation"
+                description="Master Cloud Computing with interactive courses on AWS, Azure, and Google Cloud. Join thousands of learners advancing their careers."
+                image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80"
+            />
             <Header />
 
             {user ? (

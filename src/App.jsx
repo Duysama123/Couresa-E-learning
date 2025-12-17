@@ -18,6 +18,7 @@ import SearchResults from './pages/SearchResults';
 import CloudInspector from './pages/CloudInspector';
 import MyLearning from './pages/MyLearning';
 import MobileSimulatorPage from './pages/MobileSimulatorPage';
+import LoadingDemo from './pages/LoadingDemo';
 const Dashboard = () => <div className="p-8 text-2xl">Dashboard</div>;
 
 const ProtectedRoute = ({ children }) => {
@@ -50,6 +51,7 @@ function App() {
               <Route path="/forgot-password" element={<MainLayout><ForgotPassword /></MainLayout>} />
               <Route path="/reset-password/:token" element={<MainLayout><ResetPassword /></MainLayout>} />
               <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+              <Route path="/loading-demo" element={<MainLayout><LoadingDemo /></MainLayout>} />
 
               {/* Protected Routes with Footer */}
               <Route path="/course/:id" element={
