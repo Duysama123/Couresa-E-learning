@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -40,6 +41,7 @@ function App() {
       <ChatProvider>
         <Router>
           <div className="flex flex-col min-h-screen">
+            <Analytics />
             <Routes>
               {/* Standalone Mobile App Simulator - No Footer, Internal Auth */}
               <Route path="/mobile-app" element={<MobileSimulatorPage />} />
