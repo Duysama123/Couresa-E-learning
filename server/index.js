@@ -21,7 +21,8 @@ app.use(cors({
     ],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 86400 // Cache preflight requests for 24 hours
 }));
 app.use(bodyParser.json());
 

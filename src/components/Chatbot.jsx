@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Bot, Star } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
-import API_URL from '../config';
+import API_URL, { CHATBOT_MODE } from '../config';
 
 const Chatbot = () => {
     const { isOpen, closeChat, initialMessage, setInitialMessage } = useChat();
@@ -51,7 +51,14 @@ const Chatbot = () => {
                 parts: [{ text: m.text }]
             }));
 
-            const response = await fetch(`${API_URL}/api/chat`, {
+            // Choose API endpoint based on mode
+            const chatEndpoint = CHATBOT_MODE === 'edge'
+                ? '/api/chat'  // Vercel Edge Function (fastest, no cold start)
+                : `${API_URL}/api/chat`;  // Traditional backend (Render)
+
+            console.log(`[Chatbot] Using ${CHATBOT_MODE} mode: ${chatEndpoint}`);
+
+            const response = await fetch(chatEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: text, history })
